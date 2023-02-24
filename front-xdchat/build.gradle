@@ -1,0 +1,17 @@
+
+plugins {
+    id 'com.github.node-gradle.node' version '3.5.1'
+}
+
+group = 'xdsup'
+version = '0.0.1-SNAPSHOT'
+
+node {
+    nodeProjectDir = file("${project.projectDir}/")
+    download = true
+    version = "19.7.0"
+}
+
+task reactBuild(type: NpmTask, dependsOn: 'npmInstall') {
+    args = ["run", 'build']
+}

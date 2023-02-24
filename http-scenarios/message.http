@@ -14,8 +14,12 @@ GET http://localhost:8080/message/get
 
 ###
 PUT http://localhost:8080/message/add
+Content-Type: application/json
 
-qwe
+{
+  "userName": "Qwe",
+  "text": "Asd"
+}
 
 > {%
  client.assert(response.status === 200)
@@ -23,8 +27,12 @@ qwe
 
 ###
 PUT http://localhost:8080/message/add
+Content-Type: application/json
 
-test
+{
+  "userName": "Rty",
+  "text": "Fgh"
+}
 
 > {%
  client.assert(response.status === 200)
@@ -35,7 +43,8 @@ GET http://localhost:8080/message/get
 
 > {%
  client.assert(response.status === 200)
- client.assert(response.body[0] === "qwe")
- client.assert(response.body[1] === "test")
-
+ client.assert(response.body[0].userName === "Qwe")
+ client.assert(response.body[0].text === "Asd")
+ client.assert(response.body[1].userName === "Rty")
+ client.assert(response.body[1].text === "Fgh")
  %}

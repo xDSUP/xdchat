@@ -1,14 +1,15 @@
 package xdsup.voicechat.service
 
 import org.springframework.stereotype.Service
+import xdsup.voicechat.entity.Message
 
 @Service
 class MessageService {
-    private val messages = mutableListOf<String>()
+    private val messages = mutableListOf<Message>()
 
-    fun getAllMessages(): List<String> = messages.toList()
+    fun getAllMessages(): List<Message> = messages.toList()
 
-    fun addMessage(message: String): Boolean = messages.add(message)
+    fun addMessage(message: Message): Boolean = messages.add(message)
 
     fun removeAllMessages() = messages.clear()
 }

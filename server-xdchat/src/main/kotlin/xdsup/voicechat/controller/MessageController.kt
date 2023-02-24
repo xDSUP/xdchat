@@ -7,14 +7,14 @@ import xdsup.voicechat.service.MessageService
 @RestController
 @RequestMapping("/message")
 class MessageController (
-    private var messageService: MessageService
+    private var service: MessageService
 ){
-    @GetMapping("/get")
-    fun getMessages(): List<Message> = messageService.getAllMessages()
+    @GetMapping
+    fun getMessages(): List<Message> = service.getAllMessages()
 
-    @PutMapping("/add")
-    fun putMessage(@RequestBody message: Message) = messageService.addMessage(message)
+    @PostMapping
+    fun postMessage(@RequestBody message: Message) = service.addMessage(message)
 
-    @DeleteMapping("/clear")
-    fun removeAllMessages() = messageService.removeAllMessages()
+    @DeleteMapping
+    fun removeAllMessages() = service.removeAllMessages()
 }

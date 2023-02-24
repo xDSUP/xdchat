@@ -1,19 +1,19 @@
 ###
-DELETE http://localhost:8080/message/clear
+DELETE http://localhost:8080/api/message
 
 > {%
  client.assert(response.status === 200)
  %}
 
 ###
-GET http://localhost:8080/message/get
+GET http://localhost:8080/api/message
 
 > {%
  client.assert(response.status === 200)
  %}
 
 ###
-PUT http://localhost:8080/message/add
+POST http://localhost:8080/api/message
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
  %}
 
 ###
-PUT http://localhost:8080/message/add
+POST http://localhost:8080/api/message
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
  %}
 
 ###
-GET http://localhost:8080/message/get
+GET http://localhost:8080/api/message
 
 > {%
  client.assert(response.status === 200)

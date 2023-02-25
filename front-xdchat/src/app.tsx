@@ -2,6 +2,8 @@ import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./app.css";
 import {useMessages} from "./hooks/useMessages";
 import {MessageList} from "./components/MessageList";
+import WebSocketTest from './testComponents/WebSocketTest';
+import TestRealTimeField from "./testComponents/TestRealTimeField";
 
 function App() {
     const [message, setMessage] = useState("");
@@ -34,38 +36,42 @@ function App() {
     };
 
     return (
-        <div className="App">
-            <h1>Simple Chat</h1>
-            <div className="username-container">
-                <input
-                    type="text"
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={handleUsernameChange}
-                />
-            </div>
-            <MessageList messages={messages}/>
+        <>
+            <div className="App">
+                <h1>Simple Chat</h1>
+                <div className="username-container">
+                    <input
+                        type="text"
+                        placeholder="Enter username"
+                        value={username}
+                        onChange={handleUsernameChange}
+                    />
+                </div>
+                <MessageList messages={messages}/>
 
-            <div className="input-container">
-                <input
-                    type="text"
-                    placeholder="Type a message..."
-                    value={message}
-                    onKeyDown={event => {
-                        if (event.key === "Enter") {
-                            handleSendMessage()
-                        }
-                    }}
-                    onChange={handleMessageChange}
-                    ref={inputRef}
-                />
-            </div>
-            <div className="input-container">
-                <button onClick={clearMessages}>Clear</button>
-                <button onClick={handleSendMessage}>Send</button>
-            </div>
+                <div className="input-container">
+                    <input
+                        type="text"
+                        placeholder="Type a message..."
+                        value={message}
+                        onKeyDown={event => {
+                            if (event.key === "Enter") {
+                                handleSendMessage()
+                            }
+                        }}
+                        onChange={handleMessageChange}
+                        ref={inputRef}
+                    />
+                </div>
+                <div className="input-container">
+                    <button onClick={clearMessages}>Clear</button>
+                    <button onClick={handleSendMessage}>Send</button>
+                </div>
 
-        </div>
+            </div>
+            <TestRealTimeField />
+            {/*<WebSocketTest />*/}
+        </>
     );
 }
 

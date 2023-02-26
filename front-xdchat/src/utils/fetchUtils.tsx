@@ -9,7 +9,14 @@ export enum Method {
 export function getServerApiUrl(path?: string) {
     let url = new URL(window.location.origin);
     url.port = PORT;
-    return new URL("api/" + path || "", url)
+    return new URL("api/" + (path || ""), url)
+}
+
+export function getStompSocketUrl() {
+    let url = new URL(window.location.origin);
+    url.port = PORT;
+    url.protocol = "ws";
+    return new URL("stomp", url)
 }
 
 function responseHandler<T>(response: Response): Promise<T> {

@@ -1,24 +1,19 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import "./app.css";
-import {useMessages} from "./hooks/useMessages";
 import {MessageList} from "./components/MessageList";
-import WebSocketTest from './testComponents/WebSocketTest';
 import TestRealTimeField from "./testComponents/TestRealTimeField";
+import {useMessages} from "./hooks/useMessages";
 
 function App() {
     const [message, setMessage] = useState("");
     const [username, setUsername] = useState("");
-    const {messages, sendMessage, clearMessages, loadMessages} = useMessages();
+    const {messages, sendMessage, clearMessages} = useMessages();
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (inputRef.current)
             inputRef.current.focus();
     }, []);
-
-    useEffect(() => {
-        loadMessages(username)
-    }, [username]);
 
     const handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
         setMessage(event.target.value);
@@ -30,7 +25,7 @@ function App() {
 
     const handleSendMessage = () => {
         if (message.trim() !== "") {
-            sendMessage(username, message);
+            sendMessage({userName: username, text: message});
             setMessage("");
         }
     };
@@ -47,7 +42,7 @@ function App() {
                         onChange={handleUsernameChange}
                     />
                 </div>
-                <MessageList messages={messages}/>
+                <MessageList currentUserName={username} messages={messages}/>
 
                 <div className="input-container">
                     <input
@@ -69,7 +64,7 @@ function App() {
                 </div>
 
             </div>
-            <TestRealTimeField />
+            <TestRealTimeField/>
             {/*<WebSocketTest />*/}
         </>
     );

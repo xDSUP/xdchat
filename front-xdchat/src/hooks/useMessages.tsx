@@ -1,8 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {api, apiGet, Method} from "../utils/fetchUtils";
+import {useStomp} from "../contexts/stompContext";
 
 export interface Message {
-    isUser: boolean;
     text: string;
     userName: string;
 }
@@ -16,24 +16,41 @@ const MESSAGES_URL = "message";
 
 export function useMessages() {
     const [messages, setMessages] = useState<Array<Message>>([]);
+    const {publish, subscribe, client} = useStomp();
 
-    const sendMessage = (currentUserName: string, message: string) => {
-        api<Array<MessageDTO>>(MESSAGES_URL, Method.POST, {userName: currentUserName, text: message}).then(() => {
-            loadMessages(currentUserName)
-        })
+    useEffect(() => {
+        console.log("loadMessages!!")
+        loadMessages()
+    }, [])
+
+    useEffect(() => {
+        if (client?.connected) { // нам нужно подписаться только когда client уже присоединен к серверу
+            const subscription = subscribe('/topic/message', (msg: string) => {
+                let message: MessageDTO = JSON.parse(msg);
+                setMessages((messages) => [...messages, message]);
+            })
+            return () => {
+                subscription?.unsubscribe();
+            };
+        }
+    }, [client?.connected, subscribe])
+
+
+    const sendMessage = (message: Message) => {
+        publish("/chat/sendMessage", JSON.stringify(message))
     }
 
     const clearMessages = () => {
         api(MESSAGES_URL, Method.DELETE)
     }
 
-    const loadMessages = (currentUserName: string) => {
+    const loadMessages = () => {
         apiGet<Array<MessageDTO>>(MESSAGES_URL).then(
             messages => {
-                setMessages(messages.map(message => ({...message, isUser: message.userName === currentUserName})))
+                setMessages(messages)
             }
         )
     }
 
-    return {messages, sendMessage, clearMessages, loadMessages};
+    return {messages, sendMessage, clearMessages};
 }

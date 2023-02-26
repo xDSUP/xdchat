@@ -6,7 +6,7 @@ import xdsup.voicechat.repository.MessageRepository
 
 @Service
 class MessageService(
-        private val repository: MessageRepository
+    private val repository: MessageRepository
 ) {
     fun getAllMessages(): List<Message> = repository.findAll().toList()
 

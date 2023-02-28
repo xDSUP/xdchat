@@ -82,7 +82,10 @@ const WebRTCComponent: React.FC = () => {
         setRtcDataChannel(newRtcDataChannel)
         newRtcDataChannel.onopen = () => console.log("Open data channel")
         newRtcDataChannel.onerror = (error) => console.log("Error occured on datachannel:", error)
-        newRtcDataChannel.onmessage = (event) => updateText(event.data.text)
+        newRtcDataChannel.onmessage = (event) => {
+            console.log(event.data)
+            setText(JSON.parse(event.data).text)
+        }
         newRtcDataChannel.onclose = () => console.log("data channel is closed")
         newPeerConnection.ondatachannel = (event) => setRtcDataChannel(event.channel)
         newPeerConnection.createOffer()
@@ -106,10 +109,6 @@ const WebRTCComponent: React.FC = () => {
         setText(text);
         sendMessageUseWebRTC({type: 'text', text});
     };
-
-    const updateText = (value: string) => {
-        setText(value)
-    }
 
     return (
         <div>

@@ -3,6 +3,7 @@ import "./app.css";
 import {MessageList} from "./components/MessageList";
 import TestRealTimeField from "./testComponents/TestRealTimeField";
 import {useMessages} from "./hooks/useMessages";
+import WebRTCComponent from "./testComponents/WebRTCComponent";
 
 function App() {
     const [message, setMessage] = useState("");
@@ -64,7 +65,8 @@ function App() {
                 </div>
 
             </div>
-            <TestRealTimeField/>
+            <WebRTCComponent />
+            {/*<TestRealTimeField />*/}
             {/*<WebSocketTest />*/}
         </>
     );

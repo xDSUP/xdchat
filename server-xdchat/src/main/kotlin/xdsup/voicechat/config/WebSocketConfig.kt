@@ -4,14 +4,15 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.web.socket.config.annotation.*
 import xdsup.voicechat.websocket.handlers.VoiceWebSocketHandler
-
+import xdsup.voicechat.websocket.handlers.WebRtcSignallingWebSocketHandler
 
 @Configuration
 @EnableWebSocket
 class WebSocketConfig : WebSocketConfigurer {
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
         registry.addHandler(VoiceWebSocketHandler(), "/voice")
-            .setAllowedOrigins("*")
+                .addHandler(WebRtcSignallingWebSocketHandler(), "webrtc/signalling")
+                .setAllowedOrigins("*")
     }
 }
 
